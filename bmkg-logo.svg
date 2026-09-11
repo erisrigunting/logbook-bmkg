@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="BMKG">
+  <defs><clipPath id="globe"><circle cx="32" cy="30" r="23"/></clipPath></defs>
+  <circle cx="32" cy="30" r="25" fill="#fff" stroke="#b9c2c8" stroke-width="1.5"/>
+  <g clip-path="url(#globe)">
+    <rect x="6" y="7" width="52" height="7" fill="#47a2d4"/><rect x="6" y="18" width="52" height="7" fill="#47a2d4"/>
+    <rect x="6" y="29" width="52" height="7" fill="#fff"/><rect x="6" y="40" width="52" height="7" fill="#55ad69"/><rect x="6" y="51" width="52" height="7" fill="#55ad69"/>
+    <path d="M9 15h46M9 26h46M9 37h46M9 48h46" stroke="#fff" stroke-width="3"/>
+    <ellipse cx="32" cy="30" rx="12" ry="24" fill="none" stroke="#fff" stroke-width="2"/>
+  </g>
+  <circle cx="32" cy="30" r="23" fill="none" stroke="#6d9a8a" stroke-width=".7"/>
+  <text x="32" y="62" text-anchor="middle" fill="#4d8b5e" font-family="Arial,sans-serif" font-size="7" font-weight="700">BMKG</text>
+</svg>
