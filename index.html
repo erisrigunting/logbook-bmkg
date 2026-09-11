@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -445,11 +445,10 @@ document.body.insertAdjacentHTML('beforeend', `
       <div class="reports-header"><div><h2 id="reportsTitle">Laporan Logbook</h2><p id="reportsSubtitle">Ringkasan aktivitas unit.</p></div><button class="close-reports" id="closeReports" aria-label="Tutup laporan">x</button></div>
       <div class="report-summary" id="reportSummary"></div>
       <div class="report-table-wrap"><table class="report-table"><thead><tr><th>Waktu</th><th>Kegiatan</th><th>Petugas</th><th>Status</th><th>Durasi</th></tr></thead><tbody id="reportRows"></tbody></table><p class="empty-report" id="emptyReport" hidden>Belum ada data untuk dilaporkan.</p></div>
-      <div class="report-actions"><button class="primary-button" id="exportReport" type="button">Unduh CSV</button></div>
+      <div class="report-actions"><button class="primary-button" id="exportReport" type="button">Unduh PDF</button></div>
     </section>
   </div>`);
 
-function csvValue(value) { return `"${String(value ?? '').replaceAll('"', '""')}"`; }
 function openReports() {
   const totalHours = latestLogs.reduce((total, log) => total + Number(log.hours), 0);
   document.getElementById('reportsSubtitle').textContent = `Unit ${activeUnit} - ${latestLogs.length} aktivitas tercatat`;
@@ -468,11 +467,107 @@ function closeReports() {
 document.querySelector('a[href="#laporan"]').addEventListener('click', (event) => { event.preventDefault(); openReports(); });
 document.getElementById('closeReports').addEventListener('click', closeReports);
 document.getElementById('reportsModal').addEventListener('click', (event) => { if (event.target.id === 'reportsModal') closeReports(); });
+function pdfSafeText(value) {
+  return String(value ?? '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\x20-\x7E]/g, ' ')
+    .replace(/\\/g, '\\\\')
+    .replace(/\(/g, '\\(')
+    .replace(/\)/g, '\\)');
+}
+function truncateText(value, maxLength) {
+  const text = String(value ?? '').replace(/\s+/g, ' ').trim();
+  return text.length > maxLength ? `${text.slice(0, maxLength - 3)}...` : text;
+}
+function buildReportPdf() {
+  const pageWidth = 842;
+  const pageHeight = 595;
+  const margin = 42;
+  const rowsPerPage = 20;
+  const totalHours = latestLogs.reduce((total, log) => total + Number(log.hours || 0), 0);
+  const generatedAt = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
+  const pages = [];
+  for (let start = 0; start < Math.max(latestLogs.length, 1); start += rowsPerPage) {
+    const rows = latestLogs.slice(start, start + rowsPerPage);
+    const lines = [];
+    const text = (x, y, size, value, font = 'F1') => {
+      lines.push(`BT /${font} ${size} Tf ${x} ${y} Td (${pdfSafeText(value)}) Tj ET`);
+    };
+    const rect = (x, y, width, height) => {
+      lines.push(`${x} ${y} ${width} ${height} re S`);
+    };
+    text(margin, pageHeight - 46, 16, 'Laporan Logbook', 'F2');
+    text(margin, pageHeight - 67, 10, `Unit ${activeUnit} - dibuat ${generatedAt}`);
+    text(margin, pageHeight - 91, 11, `Total aktivitas: ${latestLogs.length}`);
+    text(margin + 160, pageHeight - 91, 11, `Total durasi: ${totalHours.toFixed(1)} jam`);
+    text(margin + 330, pageHeight - 91, 11, `Dokumen PDF: ${latestLogs.filter((log) => log.has_document).length}`);
+    const top = pageHeight - 122;
+    const columns = [
+      { x: margin, w: 102, label: 'Waktu' },
+      { x: margin + 102, w: 210, label: 'Kegiatan' },
+      { x: margin + 312, w: 132, label: 'Petugas' },
+      { x: margin + 444, w: 102, label: 'Status' },
+      { x: margin + 546, w: 72, label: 'Durasi' },
+      { x: margin + 618, w: 140, label: 'Catatan' },
+    ];
+    lines.push('0.94 0.97 0.95 rg');
+    lines.push(`${margin} ${top - 22} 758 24 re f`);
+    lines.push('0 g');
+    columns.forEach((column) => text(column.x + 5, top - 15, 9, column.label, 'F2'));
+    if (!latestLogs.length) {
+      rect(margin, top - 52, 758, 30);
+      text(margin + 12, top - 42, 10, 'Belum ada data untuk dilaporkan.');
+    }
+    rows.forEach((log, index) => {
+      const y = top - 48 - (index * 20);
+      rect(margin, y - 5, 758, 20);
+      text(columns[0].x + 5, y + 1, 8, truncateText(`${log.activity_date} ${log.activity_time || ''}`, 18));
+      text(columns[1].x + 5, y + 1, 8, truncateText(log.title, 38));
+      text(columns[2].x + 5, y + 1, 8, truncateText(log.officer_name, 22));
+      text(columns[3].x + 5, y + 1, 8, truncateText(log.status, 17));
+      text(columns[4].x + 5, y + 1, 8, `${Number(log.hours).toFixed(1)} jam`);
+      text(columns[5].x + 5, y + 1, 8, truncateText(log.details || '-', 24));
+    });
+    text(pageWidth - 94, 28, 8, `Halaman ${pages.length + 1}`);
+    pages.push(lines.join('\n'));
+  }
+  const objects = [];
+  const addObject = (body) => {
+    objects.push(body);
+    return objects.length;
+  };
+  const fontRegular = addObject('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>');
+  const fontBold = addObject('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>');
+  const pageRefs = [];
+  const contentRefs = [];
+  pages.forEach((content) => {
+    const stream = `<< /Length ${content.length} >>\nstream\n${content}\nendstream`;
+    contentRefs.push(addObject(stream));
+    pageRefs.push(addObject(''));
+  });
+  const pagesRef = addObject('');
+  const catalogRef = addObject(`<< /Type /Catalog /Pages ${pagesRef} 0 R >>`);
+  pageRefs.forEach((pageRef, index) => {
+    objects[pageRef - 1] = `<< /Type /Page /Parent ${pagesRef} 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /Font << /F1 ${fontRegular} 0 R /F2 ${fontBold} 0 R >> >> /Contents ${contentRefs[index]} 0 R >>`;
+  });
+  objects[pagesRef - 1] = `<< /Type /Pages /Kids [${pageRefs.map((ref) => `${ref} 0 R`).join(' ')}] /Count ${pageRefs.length} >>`;
+  let pdf = '%PDF-1.4\n';
+  const offsets = [0];
+  objects.forEach((body, index) => {
+    offsets.push(pdf.length);
+    pdf += `${index + 1} 0 obj\n${body}\nendobj\n`;
+  });
+  const xref = pdf.length;
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  offsets.slice(1).forEach((offset) => { pdf += `${String(offset).padStart(10, '0')} 00000 n \n`; });
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root ${catalogRef} 0 R >>\nstartxref\n${xref}\n%%EOF`;
+  return pdf;
+}
 document.getElementById('exportReport').addEventListener('click', () => {
-  const csv = [['Waktu', 'Unit', 'Kegiatan', 'Petugas', 'Status', 'Catatan', 'Durasi (jam)', 'Dokumen'], ...latestLogs.map((log) => [`${log.activity_date} ${log.activity_time || ''}`, log.unit, log.title, log.officer_name, log.status, log.details || '', log.hours, log.has_document ? (log.document_name || 'Ada PDF') : 'Tidak ada'])].map((row) => row.map(csvValue).join(',')).join('\n');
   const link = document.createElement('a');
-  link.href = URL.createObjectURL(new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8' }));
-  link.download = `laporan-logbook-${activeUnit.toLowerCase()}.csv`;
+  link.href = URL.createObjectURL(new Blob([buildReportPdf()], { type: 'application/pdf' }));
+  link.download = `laporan-logbook-${activeUnit.toLowerCase()}.pdf`;
   link.click();
   URL.revokeObjectURL(link.href);
 });
