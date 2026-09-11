@@ -1,0 +1,541 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LOGERA - Logbook Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="settings.css" />
+  <link rel="stylesheet" href="units.css" />
+  <link rel="stylesheet" href="auth.css" />
+  <link rel="stylesheet" href="branding.css?v=20260909-kasir-style" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#"><span class="brand-mark"><img src="assets/logo_bmkg.png" alt="Logo resmi BMKG" /></span><span class="brand-name">Stasiun Geofisika<br>Deli Serdang</span></a>
+      <nav class="menu">
+        <p class="menu-label">MENU UTAMA</p>
+        <a class="menu-item active" href="#dashboard"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h7V4H4v9Zm9 7h7V4h-7v16ZM4 20h7v-5H4v5Z"/></svg></span> Dasbor</a>
+        <a class="menu-item" href="#riwayat"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5V4Zm3 4h8V6H8v2Zm0 4h8v-2H8v2Zm0 4h6v-2H8v2Z"/></svg></span> Logbook Saya</a>
+        <a class="menu-item" href="#kalender"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h2v3h6V2h2v3h3v17H4V5h3V2Zm11 8H6v10h12V10Z"/></svg></span> Kalender</a>
+        <a class="menu-item" href="#laporan"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h11l3 3v15H5V3Zm3 11v2h8v-2H8Zm0-4v2h8v-2H8Zm0-4v2h5V6H8Z"/></svg></span> Laporan</a>
+        <a class="menu-item" id="settingsTab" href="#pengaturan"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.4 13.5c.1-.5.1-1 .1-1.5s0-1-.1-1.5l2-1.5-2-3.5-2.4 1a8 8 0 0 0-2.6-1.5L14 2h-4l-.4 2.5A8 8 0 0 0 7 6L4.6 5 2.6 8.5l2 1.5c-.1.5-.1 1-.1 1.5s0 1 .1 1.5l-2 1.5 2 3.5 2.4-1a8 8 0 0 0 2.6 1.5L10 22h4l.4-2.5A8 8 0 0 0 17 18l2.4 1 2-3.5-2-1.5ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z"/></svg></span> Pengaturan</a>
+      </nav>
+      <div class="profile-card">
+        <div class="avatar">AR</div>
+        <div><strong>Adinda Rahma</strong><small>Mahasiswa</small></div>
+        <button id="logoutButton" aria-label="Keluar dari akun" title="Keluar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h11a2 2 0 0 1 2 2v5h-2V5H6v14h9v-5h2v5a2 2 0 0 1-2 2H4V3Zm10.6 4.6L20 13l-5.4 5.4-1.4-1.4 3-3H9v-2h7.2l-3-3 1.4-1.4Z"/></svg></button>
+      </div>
+    </aside>
+
+    <main class="main-content" id="dashboard">
+      <header class="topbar">
+        <button class="mobile-menu" id="menuToggle" aria-label="Buka menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v2H4V6Zm0 5h16v2H4v-2Zm0 5h16v2H4v-2Z"/></svg></button>
+        <div class="welcome"><p>Selamat pagi, Adinda! <span></span></p><small>Berikut ringkasan aktivitasmu hari ini.</small></div>
+        <div class="header-actions"><button class="icon-btn notification-button" aria-label="Notifikasi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm7-5-1.6-2.1V10a5.4 5.4 0 0 0-4.4-5.3V4a1 1 0 0 0-2 0v.7A5.4 5.4 0 0 0 6.6 10v4.9L5 17v1h14v-1Zm-10.4-1.7V10a3.4 3.4 0 1 1 6.8 0v5.3l.7.9H7.9l.7-.9Z"/></svg><i></i></button><div class="user-avatar">AR</div></div>
+      </header>
+
+      <section class="stats-grid">
+        <article class="stat-card"><div class="stat-icon violet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5V4Zm3 4h8V6H8v2Zm0 4h8v-2H8v2Zm0 4h6v-2H8v2Z"/></svg></div><div><p>Total Logbook</p><strong id="totalLog">24</strong><small class="up">Naik 12% <em>dari bulan lalu</em></small></div></article>
+        <article class="stat-card"><div class="stat-icon orange"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 11h5v-2h-4V6h-2v7Z"/></svg></div><div><p>Jam Aktivitas</p><strong id="totalHours">86.5</strong><small class="up">Naik 8% <em>dari bulan lalu</em></small></div></article>
+        <article class="stat-card"><div class="stat-icon green"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 16.6-4.1-4.1L4 13.9l5.5 5.5L20.5 8.4 19.1 7 9.5 16.6Z"/></svg></div><div><p>Logbook Selesai</p><strong id="doneLog">19</strong><small class="up">Naik 5% <em>dari bulan lalu</em></small></div></article>
+        <article class="stat-card"><div class="stat-icon blue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 15a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z"/></svg></div><div><p>Streak Aktif</p><strong>7 <span>hari</span></strong><small class="muted">Pertahankan semangatmu!</small></div></article>
+      </section>
+
+      <section class="new-log-card" aria-labelledby="newLogTitle">
+        <div class="new-log-head"><span class="sparkle" aria-hidden="true">+</span><div><h2 id="newLogTitle">Catat Aktivitas</h2><p>Tambahkan catatan logbook baru untuk unit Anda.</p></div></div>
+        <form id="logForm" class="activity-form" enctype="multipart/form-data">
+          <label>Judul aktivitas<select id="title" required><option value="">-- Pilih aktivitas --</option><option>Pemeriksaan Perangkat Jaringan</option><option>Kalibrasi Sensor Seismograf</option><option>Pemeliharaan Peralatan</option><option>Monitoring Jaringan</option><option>Pembaruan Basis Data Informasi</option><option>Observasi Layanan Lapangan</option><option>Bimbingan Mahasiswa</option><option>Lainnya</option></select></label>
+          <label>Petugas Onduty<select id="officer" required><option value="">Memuat daftar petugas...</option></select></label>
+          <label>Tanggal &amp; waktu (WIB)<input id="activityAt" type="datetime-local" required /></label>
+          <label>Durasi (jam)<input id="hours" required type="number" min="0.5" step="0.5" placeholder="2.5" /></label>
+          <label class="form-full">Status kegiatan<select id="status" required><option value="Normal">Normal / Baik</option><option value="Dalam Proses">Dalam Proses</option><option value="Perlu Perhatian">Perlu Perhatian</option><option value="Dalam Perbaikan">Dalam Perbaikan</option><option value="Selesai">Selesai</option></select></label>
+          <label class="form-full">Unit<select id="category" required><option value="Teknisi">Unit Teknisi</option><option value="Observasi">Unit Observasi</option><option value="Datin">Unit Datin</option></select></label>
+          <label class="form-full">Catatan / detail kegiatan<textarea id="details" rows="4" required placeholder="Tuliskan detail pekerjaan, hasil pemeriksaan, atau kendala yang ditemukan..."></textarea></label>
+          <label class="form-full">Dokumen PDF <small>(opsional, maksimal 2 MB di browser)</small><input id="document" type="file" accept="application/pdf,.pdf" /></label>
+          <div class="form-actions form-full"><button class="primary-button" type="submit">+ Simpan Catatan</button></div>
+        </form>
+      </section>
+
+      <section class="dashboard-grid">
+        <div class="left-column">
+          <section class="panel activity-panel">
+            <div class="panel-heading"><div><h2>Aktivitas Mingguan</h2><p>Ringkasan jam aktivitas minggu ini</p></div><select aria-label="Pilih periode"><option>Minggu ini</option><option>Minggu lalu</option></select></div>
+            <div class="chart-wrap"><div class="chart-y"><span>10j</span><span>8j</span><span>6j</span><span>4j</span><span>2j</span><span>0</span></div><div class="chart"><div class="gridline g1"></div><div class="gridline g2"></div><div class="gridline g3"></div><div class="gridline g4"></div><div class="gridline g5"></div><div class="bars"><div class="bar-item"><div class="bar" style="height:43%"></div><span>Sen</span></div><div class="bar-item"><div class="bar" style="height:68%"></div><span>Sel</span></div><div class="bar-item"><div class="bar" style="height:51%"></div><span>Rab</span></div><div class="bar-item"><div class="bar selected" style="height:87%"><b>8.5j</b></div><span>Kam</span></div><div class="bar-item"><div class="bar" style="height:63%"></div><span>Jum</span></div><div class="bar-item"><div class="bar" style="height:32%"></div><span>Sab</span></div><div class="bar-item"><div class="bar" style="height:17%"></div><span>Min</span></div></div></div></div>
+          </section>
+          <section class="panel recent-panel" id="riwayat">
+            <div class="panel-heading"><div><h2 id="logbookTitle">Daftar Logbook</h2><p id="logbookSubtitle">Riwayat aktivitas pada unit Anda.</p></div></div>
+            <div class="unit-filter unit-active" id="activeUnitLabel" aria-live="polite"></div>
+            <div class="table-wrap"><table class="logbook-table"><thead><tr><th>Waktu</th><th>Teknisi / Observasi / Datin</th><th>Kegiatan</th><th>Status</th><th>Catatan</th><th>Dokumen</th></tr></thead><tbody id="logList"></tbody></table><p class="empty-log" id="emptyLog" hidden>Belum ada aktivitas pada unit ini.</p></div>
+          </section>
+        </div>
+        <aside class="right-column">
+          <section class="quote-card"><span>"</span><p id="dailyQuote">Kesuksesan adalah hasil dari usaha kecil yang dilakukan berulang setiap hari.</p><small id="dailyQuoteAuthor">- Robert Collier</small></section>
+        </aside>
+      </section>
+      <footer class="app-footer" aria-label="Informasi hak cipta">&copy; 2026 Stasiun Geofisika Deli Serdang <span>|</span> @erisrigunting</footer>
+    </main>
+  </div>
+  <div class="settings-modal" id="settingsModal" aria-hidden="true">
+    <div class="settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="settings-header"><div><h2 id="settingsTitle">Pengaturan</h2><p>Sesuaikan pengalaman Logera-mu.</p></div><button class="close-settings" id="closeSettings" aria-label="Tutup pengaturan">x</button></div>
+      <form id="settingsForm" class="settings-form">
+        <section><h3>Preferensi</h3><label class="toggle-row"><span><b>Notifikasi pengingat</b><small>Ingatkan untuk mengisi logbook harian.</small></span><input id="notifications" type="checkbox" checked /><i class="toggle"></i></label><label class="toggle-row"><span><b>Mode gelap</b><small>Gunakan tampilan dengan warna gelap.</small></span><input id="darkMode" type="checkbox" /><i class="toggle"></i></label></section>
+        <button class="primary-button" type="submit">Simpan Pengaturan</button>
+      </form>
+    </div>
+  </div>
+  <div class="toast" id="toast">Logbook berhasil disimpan</div>
+  <div class="login-overlay" id="loginOverlay">
+    <section class="login-card" aria-labelledby="loginTitle">
+      <a class="brand" href="#"><span class="brand-mark"><img src="assets/logo_bmkg.png" alt="Logo resmi BMKG" /></span><span class="brand-name">Stasiun Geofisika Deli Serdang</span></a>
+      <div class="login-intro"><h1 id="loginTitle">Masuk ke Logbook</h1><p>Gunakan akun unit Anda untuk melanjutkan.</p></div>
+      <form id="loginForm" class="login-form">
+        <label>Username<input id="loginUsername" autocomplete="username" required placeholder="Masukkan username" /></label>
+        <label>Password<input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Masukkan password" /></label>
+        <p class="login-error" id="loginError" role="alert"></p>
+        <button class="primary-button" type="submit">Masuk ke Dashboard</button>
+      </form>
+      <div class="credential-note"><b>Akun unit (demo)</b><span>teknisi / teknisi123</span><span>observasi / observasi123</span><span>datin / datin123</span></div>
+      <p class="login-copyright" aria-label="Informasi hak cipta">&copy; 2026 Stasiun Geofisika Deli Serdang <span>|</span> @erisrigunting</p>
+    </section>
+  </div>
+  <script>
+const STORAGE_KEY = 'logera-static-state-v1';
+const SESSION_KEY = 'logera-static-session-v1';
+const STATUSES = ['Normal', 'Dalam Proses', 'Perlu Perhatian', 'Dalam Perbaikan', 'Selesai'];
+
+const seedState = {
+  users: [
+    { id: 1, username: 'teknisi', password: 'teknisi123', unit: 'Teknisi' },
+    { id: 2, username: 'observasi', password: 'observasi123', unit: 'Observasi' },
+    { id: 3, username: 'datin', password: 'datin123', unit: 'Datin' },
+  ],
+  officers: [
+    { id: 1, unit: 'Teknisi', name: 'Fadhil', active: true },
+    { id: 2, unit: 'Observasi', name: 'Petugas Observasi 1', active: true },
+    { id: 3, unit: 'Datin', name: 'Petugas Datin 1', active: true },
+    { id: 4, unit: 'Teknisi', name: 'Naldi', active: true },
+  ],
+  activities: [
+    { id: 1, unit: 'Teknisi', title: 'Pemeriksaan Perangkat Jaringan', active: true },
+    { id: 2, unit: 'Teknisi', title: 'Kalibrasi Sensor Seismograf', active: true },
+    { id: 3, unit: 'Teknisi', title: 'Pemeliharaan Peralatan', active: true },
+    { id: 4, unit: 'Teknisi', title: 'Monitoring Jaringan', active: true },
+    { id: 5, unit: 'Teknisi', title: 'Penggantian Komponen', active: true },
+    { id: 6, unit: 'Teknisi', title: 'Corrective Maintenance Seismometer Ina TEWS', active: true },
+    { id: 7, unit: 'Teknisi', title: 'Preventive Maintenance Seismometer Ina TEWS', active: true },
+    { id: 8, unit: 'Observasi', title: 'Observasi Layanan Lapangan', active: true },
+    { id: 9, unit: 'Observasi', title: 'Rekap Hasil Observasi Harian', active: true },
+    { id: 10, unit: 'Observasi', title: 'Pemantauan Data Gempa', active: true },
+    { id: 11, unit: 'Observasi', title: 'Pencatatan Hasil Observasi', active: true },
+    { id: 12, unit: 'Observasi', title: 'Pemeriksaan Data Observasi', active: true },
+    { id: 13, unit: 'Datin', title: 'Pembaruan Basis Data Informasi', active: true },
+    { id: 14, unit: 'Datin', title: 'Validasi Data Gempa Bumi', active: true },
+    { id: 15, unit: 'Datin', title: 'Pengolahan Data Informasi', active: true },
+    { id: 16, unit: 'Datin', title: 'Rekapitulasi Data Harian', active: true },
+    { id: 17, unit: 'Datin', title: 'Publikasi Informasi', active: true },
+    { id: 18, unit: 'Teknisi', title: 'Lainnya', active: true },
+    { id: 19, unit: 'Observasi', title: 'Lainnya', active: true },
+    { id: 20, unit: 'Datin', title: 'Lainnya', active: true },
+  ],
+  logs: [
+    { id: 1, user_id: 1, officer_id: null, unit: 'Teknisi', title: 'Pemeriksaan Perangkat Jaringan', details: '', document_url: '', document_name: '', status: 'Selesai', hours: 3.5, activity_date: '2026-09-09', activity_time: '', created_at: '2026-09-09 12:00:00' },
+    { id: 2, user_id: 1, officer_id: null, unit: 'Teknisi', title: 'Kalibrasi Sensor Seismograf', details: '', document_url: '', document_name: '', status: 'Selesai', hours: 2, activity_date: '2026-09-08', activity_time: '', created_at: '2026-09-08 11:00:00' },
+    { id: 3, user_id: 2, officer_id: null, unit: 'Observasi', title: 'Observasi Layanan Lapangan', details: '', document_url: '', document_name: '', status: 'Selesai', hours: 2.5, activity_date: '2026-09-08', activity_time: '', created_at: '2026-09-08 15:30:00' },
+    { id: 4, user_id: 2, officer_id: null, unit: 'Observasi', title: 'Rekap Hasil Observasi Harian', details: '', document_url: '', document_name: '', status: 'Selesai', hours: 1.5, activity_date: '2026-09-07', activity_time: '', created_at: '2026-09-07 16:00:00' },
+    { id: 5, user_id: 3, officer_id: null, unit: 'Datin', title: 'Pembaruan Basis Data Informasi', details: '', document_url: '', document_name: '', status: 'Selesai', hours: 1.5, activity_date: '2026-09-07', activity_time: '', created_at: '2026-09-07 10:30:00' },
+    { id: 6, user_id: 3, officer_id: null, unit: 'Datin', title: 'Validasi Data Gempa Bumi', details: '', document_url: '', document_name: '', status: 'Selesai', hours: 2, activity_date: '2026-09-06', activity_time: '', created_at: '2026-09-06 14:00:00' },
+    { id: 7, user_id: 1, officer_id: 4, unit: 'Teknisi', title: 'Pemeriksaan Shelter', details: '', document_url: '', document_name: '', status: 'Selesai', hours: 1, activity_date: '2026-09-09', activity_time: '', created_at: '2026-09-09 08:36:22' },
+    { id: 8, user_id: 1, officer_id: 4, unit: 'Teknisi', title: 'Bimbingan Mahasiswa', details: 'Belajar Membuat Web', document_url: 'uploads/logs/da33fd975bc1a85e3d9ad3e357748c9f.pdf', document_name: 'da33fd975bc1a85e3d9ad3e357748c9f.pdf', status: 'Dalam Proses', hours: 2, activity_date: '2026-09-10', activity_time: '18:18', created_at: '2026-09-10 18:21:49' },
+  ],
+};
+
+function clone(value) { return JSON.parse(JSON.stringify(value)); }
+function readState() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (!saved) {
+    const initial = clone(seedState);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
+    return initial;
+  }
+  try { return { ...clone(seedState), ...JSON.parse(saved) }; }
+  catch {
+    const initial = clone(seedState);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
+    return initial;
+  }
+}
+function writeState(nextState) { localStorage.setItem(STORAGE_KEY, JSON.stringify(nextState)); }
+function escapeHtml(value) {
+  const node = document.createElement('span');
+  node.textContent = value ?? '';
+  return node.innerHTML;
+}
+
+let state = readState();
+const overlay = document.getElementById('loginOverlay');
+const loginForm = document.getElementById('loginForm');
+const loginError = document.getElementById('loginError');
+const logList = document.getElementById('logList');
+const logForm = document.getElementById('logForm');
+const activityAtInput = document.getElementById('activityAt');
+const unitSelect = document.getElementById('category');
+const officerSelect = document.getElementById('officer');
+const titleSelect = document.getElementById('title');
+const darkMode = document.getElementById('darkMode');
+const notifications = document.getElementById('notifications');
+let activeUnit = 'Semua';
+let currentUser = null;
+let latestLogs = [];
+
+const dailyQuotes = [
+  ['Kesuksesan adalah hasil dari usaha kecil yang dilakukan berulang setiap hari.', 'Robert Collier'],
+  ['Mulailah dari tempatmu berada. Gunakan apa yang kamu punya. Lakukan apa yang kamu bisa.', 'Arthur Ashe'],
+  ['Keunggulan bukanlah sebuah tindakan, melainkan sebuah kebiasaan.', 'Aristoteles'],
+  ['Satu-satunya cara untuk melakukan pekerjaan hebat adalah mencintai apa yang kamu kerjakan.', 'Steve Jobs'],
+  ['Jangan menunggu kesempatan. Ciptakan kesempatanmu sendiri.', 'George Bernard Shaw'],
+  ['Kemajuan kecil tetaplah kemajuan.', 'Anonim'],
+];
+
+function setDailyQuote() {
+  const dateText = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta' }).format(new Date());
+  const quote = dailyQuotes[Math.floor(new Date(`${dateText}T00:00:00Z`).getTime() / 86400000) % dailyQuotes.length];
+  document.getElementById('dailyQuote').textContent = quote[0];
+  document.getElementById('dailyQuoteAuthor').textContent = `- ${quote[1]}`;
+}
+setDailyQuote();
+setInterval(setDailyQuote, 60000);
+
+const notificationButton = document.querySelector('[aria-label="Notifikasi"]');
+const notificationItems = [];
+document.querySelector('.header-actions').insertAdjacentHTML('beforeend', '<div class="notification-popover" id="notificationPopover" hidden><div class="notification-title"><b>Notifikasi</b><button type="button" id="markNotificationsRead">Tandai dibaca</button></div><div id="notificationList" class="notification-list"></div></div>');
+
+function renderNotifications() {
+  const list = document.getElementById('notificationList');
+  list.innerHTML = notificationItems.length ? notificationItems.map((item) => `<article><b>${escapeHtml(item.title)}</b><span>${escapeHtml(item.message)}</span></article>`).join('') : '<p>Belum ada notifikasi baru.</p>';
+  notificationButton.querySelector('i').hidden = notificationItems.length === 0;
+}
+function addNotification(title, message) {
+  if (!notifications.checked) return;
+  notificationItems.unshift({ title, message });
+  renderNotifications();
+}
+function closeNotifications() {
+  const popover = document.getElementById('notificationPopover');
+  popover.hidden = true;
+  notificationButton.setAttribute('aria-expanded', 'false');
+}
+notificationButton.setAttribute('aria-expanded', 'false');
+notificationButton.addEventListener('click', (event) => {
+  event.stopPropagation();
+  const popover = document.getElementById('notificationPopover');
+  const willOpen = popover.hidden;
+  popover.hidden = !willOpen;
+  notificationButton.setAttribute('aria-expanded', String(willOpen));
+  if (willOpen) renderNotifications();
+});
+document.getElementById('markNotificationsRead').addEventListener('click', () => { notificationItems.length = 0; renderNotifications(); });
+document.addEventListener('click', (event) => { if (!event.target.closest('.header-actions')) closeNotifications(); });
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeNotifications(); });
+
+function currentGreeting() {
+  const hour = Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Jakarta', hour: 'numeric', hour12: false }).format(new Date()));
+  if (hour >= 4 && hour < 11) return 'pagi';
+  if (hour >= 11 && hour < 15) return 'siang';
+  if (hour >= 15 && hour < 18) return 'sore';
+  return 'malam';
+}
+function updateGreeting() {
+  if (!currentUser) return;
+  document.querySelector('.welcome p').childNodes[0].nodeValue = `Selamat ${currentGreeting()}, ${currentUser.username}! `;
+}
+setInterval(updateGreeting, 60000);
+
+function wibDateTimeLocal() {
+  const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
+  const value = (type) => parts.find((part) => part.type === type)?.value || '00';
+  return `${value('year')}-${value('month')}-${value('day')}T${value('hour')}:${value('minute')}`;
+}
+activityAtInput.value = wibDateTimeLocal();
+
+const savedSettings = JSON.parse(localStorage.getItem('logera-settings') || '{}');
+darkMode.checked = Boolean(savedSettings.darkMode);
+notifications.checked = savedSettings.notifications !== false;
+document.body.classList.toggle('dark-mode', darkMode.checked);
+
+function formatDate(value) {
+  const date = new Date(`${value}T00:00:00`);
+  return { day: String(date.getDate()).padStart(2, '0'), month: date.toLocaleString('id-ID', { month: 'short' }).toUpperCase(), year: date.getFullYear() };
+}
+function officerName(id) { return state.officers.find((officer) => officer.id === Number(id))?.name || '-'; }
+function orderedUnitLogs(unit) {
+  return state.logs
+    .filter((log) => log.unit === unit)
+    .map((log) => ({ ...log, has_document: Boolean(log.document_url), officer_name: officerName(log.officer_id) }))
+    .sort((a, b) => (`${b.activity_date} ${b.activity_time || ''} ${b.id}`).localeCompare(`${a.activity_date} ${a.activity_time || ''} ${a.id}`));
+}
+function populateActivityTitles() {
+  const activities = state.activities.filter((activity) => activity.unit === activeUnit && activity.active).sort((a, b) => a.title.localeCompare(b.title));
+  titleSelect.innerHTML = '<option value="">-- Pilih aktivitas --</option>' + activities.map((activity) => `<option value="${escapeHtml(activity.title)}">${escapeHtml(activity.title)}</option>`).join('');
+}
+function loadOfficers() {
+  const officers = state.officers.filter((officer) => officer.unit === activeUnit && officer.active).sort((a, b) => a.name.localeCompare(b.name));
+  officerSelect.innerHTML = '<option value="">Pilih petugas yang berdinas</option>';
+  officers.forEach((officer) => {
+    const option = document.createElement('option');
+    option.value = officer.id;
+    option.textContent = officer.name;
+    officerSelect.append(option);
+  });
+  officerSelect.disabled = officers.length === 0;
+}
+function renderLogs(logs) {
+  logList.innerHTML = '';
+  const emptyLog = document.getElementById('emptyLog');
+  emptyLog.hidden = logs.length > 0;
+  logs.forEach((log) => {
+    const date = formatDate(log.activity_date);
+    const time = `${date.day} ${date.month} ${date.year} ${log.activity_time || '-'}`;
+    const documentLink = log.document_url ? `<a class="document-link" href="${escapeHtml(log.document_url)}" target="_blank" rel="noopener">Lihat PDF</a>` : '<span class="no-document">-</span>';
+    const statusClass = `status-${String(log.status).toLowerCase().replaceAll(' ', '-')}`;
+    const row = document.createElement('tr');
+    row.className = 'log-table-row';
+    row.dataset.unit = log.unit;
+    row.innerHTML = `<td>${time}</td><td><b>${escapeHtml(log.officer_name)}</b><small>Unit ${escapeHtml(log.unit)}</small></td><td>${escapeHtml(log.title)}<small>${Number(log.hours).toFixed(1)} jam</small></td><td><span class="log-status ${statusClass}">${escapeHtml(log.status)}</span></td><td class="log-notes">${escapeHtml(log.details || '-')}</td><td>${documentLink}</td>`;
+    logList.append(row);
+  });
+}
+function loadLogs() {
+  latestLogs = orderedUnitLogs(activeUnit);
+  renderLogs(latestLogs);
+  document.getElementById('totalLog').textContent = latestLogs.length;
+  document.getElementById('doneLog').textContent = latestLogs.filter((log) => log.status === 'Selesai' || log.status === 'Normal').length;
+  document.getElementById('totalHours').textContent = latestLogs.reduce((sum, log) => sum + Number(log.hours || 0), 0).toFixed(1);
+}
+function setUser(user) {
+  currentUser = user;
+  activeUnit = user.unit;
+  updateGreeting();
+  document.querySelector('.profile-card strong').textContent = user.username;
+  document.querySelector('.profile-card small').textContent = `Unit ${user.unit}`;
+  document.querySelector('.avatar').textContent = user.username.slice(0, 2).toUpperCase();
+  document.querySelector('.user-avatar').textContent = user.username.slice(0, 2).toUpperCase();
+  unitSelect.value = user.unit;
+  unitSelect.disabled = true;
+  document.getElementById('logbookTitle').textContent = `Daftar Logbook Unit ${user.unit}`;
+  document.getElementById('logbookSubtitle').textContent = `Hanya aktivitas Unit ${user.unit} yang ditampilkan.`;
+  document.getElementById('activeUnitLabel').textContent = `Unit aktif: ${user.unit}`;
+}
+function startSession(user) {
+  setUser(user);
+  overlay.classList.add('hidden');
+  populateActivityTitles();
+  loadOfficers();
+  loadLogs();
+}
+
+loginForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  loginError.textContent = '';
+  const username = document.getElementById('loginUsername').value.trim().toLowerCase();
+  const password = document.getElementById('loginPassword').value;
+  const user = state.users.find((item) => item.username === username && item.password === password);
+  if (!user) {
+    loginError.textContent = 'Username atau password tidak valid.';
+    return;
+  }
+  const sessionUser = { id: user.id, username: user.username, unit: user.unit };
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionUser));
+  startSession(sessionUser);
+});
+
+function readPdfAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(new Error('Dokumen gagal dibaca.'));
+    reader.readAsDataURL(file);
+  });
+}
+
+logForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  try {
+    const title = document.getElementById('title').value.trim();
+    const details = document.getElementById('details').value.trim();
+    const status = document.getElementById('status').value;
+    const hours = Number(document.getElementById('hours').value);
+    const activityAt = activityAtInput.value;
+    const officerId = Number(officerSelect.value);
+    const match = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/.exec(activityAt);
+    const officerValid = state.officers.some((officer) => officer.id === officerId && officer.unit === currentUser.unit && officer.active);
+    if (!title || title.length > 150 || !details || details.length > 5000 || !STATUSES.includes(status) || !Number.isFinite(hours) || hours <= 0 || hours > 24 || !match || !officerValid) throw new Error('Data aktivitas tidak valid.');
+    const documentFile = document.getElementById('document').files[0];
+    let documentUrl = '';
+    let documentName = '';
+    if (documentFile) {
+      if (documentFile.type !== 'application/pdf' || documentFile.size > 2 * 1024 * 1024) throw new Error('Dokumen harus berupa PDF dan maksimal 2 MB.');
+      documentUrl = await readPdfAsDataUrl(documentFile);
+      documentName = documentFile.name;
+    }
+    const nextId = Math.max(0, ...state.logs.map((log) => Number(log.id))) + 1;
+    state.logs.push({
+      id: nextId,
+      user_id: currentUser.id,
+      officer_id: officerId,
+      unit: currentUser.unit,
+      title,
+      details,
+      document_url: documentUrl,
+      document_name: documentName,
+      status,
+      hours,
+      activity_date: `${match[1]}-${match[2]}-${match[3]}`,
+      activity_time: `${match[4]}:${match[5]}`,
+      created_at: new Date().toISOString(),
+    });
+    writeState(state);
+    logForm.reset();
+    activityAtInput.value = wibDateTimeLocal();
+    unitSelect.value = currentUser.unit;
+    loadOfficers();
+    loadLogs();
+    const toast = document.getElementById('toast');
+    toast.textContent = 'Logbook berhasil disimpan';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2600);
+    addNotification('Logbook tersimpan', 'Catatan aktivitas Anda berhasil ditambahkan.');
+  } catch (error) {
+    alert(error.message);
+  }
+});
+
+document.getElementById('logoutButton').addEventListener('click', () => {
+  sessionStorage.removeItem(SESSION_KEY);
+  currentUser = null;
+  logList.innerHTML = '';
+  loginForm.reset();
+  overlay.classList.remove('hidden');
+});
+
+const settingsModal = document.getElementById('settingsModal');
+document.getElementById('settingsTab').addEventListener('click', (event) => { event.preventDefault(); settingsModal.classList.add('open'); });
+document.getElementById('closeSettings').addEventListener('click', () => settingsModal.classList.remove('open'));
+settingsModal.addEventListener('click', (event) => { if (event.target === settingsModal) settingsModal.classList.remove('open'); });
+document.getElementById('settingsForm').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const settings = { darkMode: darkMode.checked, notifications: notifications.checked };
+  localStorage.setItem('logera-settings', JSON.stringify(settings));
+  document.body.classList.toggle('dark-mode', settings.darkMode);
+  settingsModal.classList.remove('open');
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Pengaturan berhasil disimpan';
+  toast.classList.add('show');
+  setTimeout(() => { toast.classList.remove('show'); toast.textContent = 'Logbook berhasil disimpan'; }, 2600);
+});
+
+document.body.insertAdjacentHTML('beforeend', `
+  <div class="reports-modal" id="reportsModal" aria-hidden="true">
+    <section class="reports-dialog" role="dialog" aria-modal="true" aria-labelledby="reportsTitle">
+      <div class="reports-header"><div><h2 id="reportsTitle">Laporan Logbook</h2><p id="reportsSubtitle">Ringkasan aktivitas unit.</p></div><button class="close-reports" id="closeReports" aria-label="Tutup laporan">x</button></div>
+      <div class="report-summary" id="reportSummary"></div>
+      <div class="report-table-wrap"><table class="report-table"><thead><tr><th>Waktu</th><th>Kegiatan</th><th>Petugas</th><th>Status</th><th>Durasi</th></tr></thead><tbody id="reportRows"></tbody></table><p class="empty-report" id="emptyReport" hidden>Belum ada data untuk dilaporkan.</p></div>
+      <div class="report-actions"><button class="primary-button" id="exportReport" type="button">Unduh CSV</button></div>
+    </section>
+  </div>`);
+
+function csvValue(value) { return `"${String(value ?? '').replaceAll('"', '""')}"`; }
+function openReports() {
+  const totalHours = latestLogs.reduce((total, log) => total + Number(log.hours), 0);
+  document.getElementById('reportsSubtitle').textContent = `Unit ${activeUnit} - ${latestLogs.length} aktivitas tercatat`;
+  document.getElementById('reportSummary').innerHTML = `<div><small>Total aktivitas</small><strong>${latestLogs.length}</strong></div><div><small>Total durasi</small><strong>${totalHours.toFixed(1)} jam</strong></div><div><small>Dokumen PDF</small><strong>${latestLogs.filter((log) => log.has_document).length}</strong></div>`;
+  document.getElementById('reportRows').innerHTML = latestLogs.map((log) => `<tr><td>${escapeHtml(log.activity_date)} ${escapeHtml(log.activity_time || '')}</td><td>${escapeHtml(log.title)}</td><td>${escapeHtml(log.officer_name)}</td><td>${escapeHtml(log.status)}</td><td>${Number(log.hours).toFixed(1)} jam</td></tr>`).join('');
+  document.getElementById('emptyReport').hidden = latestLogs.length > 0;
+  const modal = document.getElementById('reportsModal');
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+}
+function closeReports() {
+  const modal = document.getElementById('reportsModal');
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+}
+document.querySelector('a[href="#laporan"]').addEventListener('click', (event) => { event.preventDefault(); openReports(); });
+document.getElementById('closeReports').addEventListener('click', closeReports);
+document.getElementById('reportsModal').addEventListener('click', (event) => { if (event.target.id === 'reportsModal') closeReports(); });
+document.getElementById('exportReport').addEventListener('click', () => {
+  const csv = [['Waktu', 'Unit', 'Kegiatan', 'Petugas', 'Status', 'Catatan', 'Durasi (jam)', 'Dokumen'], ...latestLogs.map((log) => [`${log.activity_date} ${log.activity_time || ''}`, log.unit, log.title, log.officer_name, log.status, log.details || '', log.hours, log.has_document ? (log.document_name || 'Ada PDF') : 'Tidak ada'])].map((row) => row.map(csvValue).join(',')).join('\n');
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8' }));
+  link.download = `laporan-logbook-${activeUnit.toLowerCase()}.csv`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+});
+
+document.body.insertAdjacentHTML('beforeend', '<div class="calendar-modal" id="calendarModal" aria-hidden="true"><section class="calendar-dialog" role="dialog" aria-modal="true" aria-labelledby="calendarTitle"><div class="calendar-header"><div><h2 id="calendarTitle">Kalender Aktivitas</h2><p id="calendarSubtitle">Jadwal logbook unit Anda.</p></div><button class="close-calendar" id="closeCalendar" aria-label="Tutup kalender">x</button></div><div class="calendar-toolbar"><button type="button" id="previousMonth" aria-label="Bulan sebelumnya">&lt;</button><strong id="calendarMonth"></strong><button type="button" id="nextMonth" aria-label="Bulan berikutnya">&gt;</button></div><div class="calendar-weekdays"><span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span></div><div class="calendar-grid" id="calendarGrid"></div></section></div>');
+let calendarDate = new Date();
+function renderCalendar() {
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
+  document.getElementById('calendarMonth').textContent = calendarDate.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+  const logsByDay = {};
+  latestLogs.forEach((log) => {
+    if (log.activity_date.startsWith(`${year}-${String(month + 1).padStart(2, '0')}`)) {
+      const day = Number(log.activity_date.slice(-2));
+      (logsByDay[day] ||= []).push(log);
+    }
+  });
+  const cells = [];
+  for (let i = 0; i < firstDay; i += 1) cells.push('<span class="calendar-day empty"></span>');
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    const items = logsByDay[day] || [];
+    const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === day;
+    cells.push(`<span class="calendar-day${isToday ? ' today' : ''}${items.length ? ' has-activity' : ''}" title="${items.map((item) => escapeHtml(item.title)).join(', ')}"><b>${day}</b>${items.length ? `<i>${items.length}</i>` : ''}</span>`);
+  }
+  document.getElementById('calendarGrid').innerHTML = cells.join('');
+}
+function openCalendar() {
+  document.getElementById('calendarSubtitle').textContent = `Unit ${activeUnit} - tanggal dengan titik memiliki aktivitas`;
+  renderCalendar();
+  const modal = document.getElementById('calendarModal');
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+}
+function closeCalendar() {
+  const modal = document.getElementById('calendarModal');
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+}
+document.querySelector('a[href="#kalender"]').addEventListener('click', (event) => { event.preventDefault(); openCalendar(); });
+document.getElementById('closeCalendar').addEventListener('click', closeCalendar);
+document.getElementById('previousMonth').addEventListener('click', () => { calendarDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() - 1, 1); renderCalendar(); });
+document.getElementById('nextMonth').addEventListener('click', () => { calendarDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 1); renderCalendar(); });
+document.getElementById('calendarModal').addEventListener('click', (event) => { if (event.target.id === 'calendarModal') closeCalendar(); });
+
+document.getElementById('menuToggle').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+document.querySelectorAll('.menu-item').forEach((item) => {
+  item.addEventListener('click', () => document.getElementById('sidebar').classList.remove('open'));
+});
+
+const savedSession = sessionStorage.getItem(SESSION_KEY);
+if (savedSession) {
+  try { startSession(JSON.parse(savedSession)); }
+  catch { overlay.classList.remove('hidden'); }
+} else {
+  overlay.classList.remove('hidden');
+}
+
+</script>
+</body>
+</html>
+
